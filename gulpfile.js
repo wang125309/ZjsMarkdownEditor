@@ -17,10 +17,28 @@ gulp.task('stylus',function(){
 });
 
 
+gulp.task('stylus-min',function(){
+    gulp.src('./src/*.styl')
+        .pipe(stylus())
+        .pipe(css_minify())
+        .pipe(base64())
+        .pipe(rename('zjs_markdown_editor.min.css'))
+        .pipe(gulp.dest('./dist/'));
+});
+
 gulp.task('js',function(){
     gulp.src('./src/*.js')
         .pipe(browserify())
         .pipe(uglify())
         .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('js-min',function(){
+    gulp.src('./src/*.js')
+        .pipe(browserify())
+        .pipe(rename('zjs_markdown_editor.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist/'));
+
 });
 
