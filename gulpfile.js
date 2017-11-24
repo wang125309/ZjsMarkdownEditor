@@ -29,7 +29,6 @@ gulp.task('stylus-min',function(){
 gulp.task('js',function(){
     gulp.src('./src/*.js')
         .pipe(browserify())
-        .pipe(uglify())
         .pipe(gulp.dest('./dist/'));
 });
 

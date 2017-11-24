@@ -1,6 +1,6 @@
 {
   "name": "zjs_markdown_editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Usages ===",
   "main": "dist/index.js",
   "scripts": {
@@ -19,6 +19,19 @@
     "stylus": "^0.54.5",
     "uglify": "^0.1.5"
   },
+  "browserify": {
+    "transform": ["browserify-shim"]
+  },
+  "browser": {
+    "jquery.crate" : "./node_modules/jquery.caret/dist/jquery.caret.min.js",
+    "showdown" : "./node_modules/showdown/dist/showdown.min.js"
+  },
+  "browserify-shim": {
+    "showdown" : ["jquery:jQuery"],
+    "jquery.crate" : {
+        "depends" : ["jquery:jQuery"]
+    }
+  },
   "devDependencies": {},
   "repository": {
     "type": "git",
@@ -27,5 +40,8 @@
   "bugs": {
     "url": "https://github.com/wang125309/ZjsMarkdownEditor/issues"
   },
-  "homepage": "https://github.com/wang125309/ZjsMarkdownEditor#readme"
+  "homepage": "https://github.com/wang125309/ZjsMarkdownEditor#readme",
+  "keywords": [
+    "markdown"
+  ]
 }

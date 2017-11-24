@@ -1,3 +1,7 @@
+var $ =require('jquery');
+require('jquery.crate');
+var showdown = require('showdown');
+
 (function(){
     "use strict"
     
