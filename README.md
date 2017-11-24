@@ -7,6 +7,10 @@ Usages
         'selector': 'body'
     }).init();
 
+You can install this module use npm
+
+    npm install zjs_markdown_editor
+
 Selector may be jQuery selectors
 
 Texts would auto save in your localStorage
