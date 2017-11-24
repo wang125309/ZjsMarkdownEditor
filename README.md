@@ -19,4 +19,8 @@ You can get markdown text from localStorage or call the function
     
     editor.getMarkDownText()
 
-Depends on jQuery, jquery.caret.js, showdown 
+Depends on jQuery, jquery.caret.js, showdown
+
+Live Demo : [https://wang125309.github.io/zjsmarkdowneditor.github.io/][1]
+
+  [1]: https://wang125309.github.io/zjsmarkdowneditor.github.io/
