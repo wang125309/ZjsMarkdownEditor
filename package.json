@@ -1,0 +1,31 @@
+{
+  "name": "zjs_markdown_editor",
+  "version": "0.0.1",
+  "description": "Usages ===",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wangbailin",
+  "license": "ISC",
+  "dependencies": {
+    "css-minify": "^1.0.1",
+    "gulp": "^3.9.1",
+    "gulp-stylus": "^2.6.0",
+    "browserify": "^14.5.0",
+    "jquery.caret": "^0.3.1",
+    "jquery": "^1.12.4",
+    "showdown": "^1.8.2",
+    "stylus": "^0.54.5",
+    "uglify": "^0.1.5"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wang125309/ZjsMarkdownEditor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wang125309/ZjsMarkdownEditor/issues"
+  },
+  "homepage": "https://github.com/wang125309/ZjsMarkdownEditor#readme"
+}
