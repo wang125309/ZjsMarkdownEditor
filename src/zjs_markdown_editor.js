@@ -33,6 +33,14 @@ var showdown = require('showdown');
         obj.width = ('width' in params? params.width: '100%');
         obj.height = ('height' in params? params.height: '100%');
         obj.events = ['blod', 'italic', 'a', 'quote', 'code', 'title', 'title1', 'title2', 'line', 'image', 'last', 'next']; 
+        obj.tools = ('tools' in params? params.tools: null);
+        obj.setTools = function() {
+            if (null != obj.tools) {
+                for(var ele in obj.tools) {
+                    $('.markdown-toolbar').append(obj.tools[ele]);
+                }
+            };
+        };
         obj.wrapper = function() {
             var html = '<div class="markdown-wrapper" style="width:' + obj.width+';height:' + obj.height+';">' +
                     '<div class="markdown-toolbar">' + 
@@ -576,6 +584,7 @@ var showdown = require('showdown');
                 obj.editor();
                 obj.viewer();
                 obj.getSaveText();
+                obj.setTools();
             }
         };
         
