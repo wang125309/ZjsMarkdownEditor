@@ -4,7 +4,10 @@ Usages
     var editor = new MarkdownEditor({
         'width': '100%',
         'height': '100%',
-        'selector': 'body'
+        'selector': 'body',
+        'callback': function() {
+            alert('Markdown editor')
+        }
     }).init();
 
 You can install this module use npm
