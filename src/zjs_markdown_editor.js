@@ -34,6 +34,7 @@ var showdown = require('showdown');
         obj.height = ('height' in params? params.height: '100%');
         obj.events = ['blod', 'italic', 'a', 'quote', 'code', 'title', 'title1', 'title2', 'line', 'image', 'last', 'next']; 
         obj.tools = ('tools' in params? params.tools: null);
+        obj.callback = ('callback' in params? params.callback: null);
         obj.setTools = function() {
             if (null != obj.tools) {
                 for(var ele in obj.tools) {
@@ -585,6 +586,7 @@ var showdown = require('showdown');
                 obj.viewer();
                 obj.getSaveText();
                 obj.setTools();
+                obj.callback();
             }
         };
         
