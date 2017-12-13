@@ -11029,8 +11029,8 @@ return jQuery;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(require,module,exports){
-require('jquery.crate');
 var $ =require('jquery');
+require('jquery.crate');
 var showdown = require('showdown');
 
 (function(){
