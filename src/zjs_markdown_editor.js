@@ -351,9 +351,9 @@ var showdown = require('showdown');
                 $('.image-tool').on('click', function(){
                     _image_menu = new obj.menu(
                         '添加图片链接', 
-                        '<div><form id="add-image"><input class="add-image" type="text"/></form></div>'
+                        '<div><input class="add-image" type="text"/></div>'
                         + '<div>'
-                        +   '<input class="markdown-upload-image" name="' + obj.upload_name +'" type="file"/>'
+                        +   '<form id="add-image"><input class="markdown-upload-image" name="' + obj.upload_name +'" type="file"/></form>'
                         +   '<div class="drop-or-click"><div class="upload-area"><i class="upload-logo"/><span>'+UPLOAD_TEXT+'</span></div></div>'
                         + '</div>', 
                         function(){
