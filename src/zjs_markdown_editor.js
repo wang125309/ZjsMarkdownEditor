@@ -17,6 +17,7 @@ var showdown = require('showdown');
     var NEXT_STEP = '下一步';
     var CANCLE = '取消';
     var CONFIRM = '确定';
+    var UPLOAD_TEXT = '点击或拖拽图片到此区域上传图片';
     var QUEUE_LENGTH = 200;
     var first_open = 0;
 
@@ -353,7 +354,7 @@ var showdown = require('showdown');
                         '<div><form id="add-image"><input class="add-image" name="'+obj.upload_name+'" type="text"/></form></div>'
                         + '<div>'
                         +   '<input class="markdown-upload-image" type="file"/>'
-                        +   '<div class="drop-or-click" style="background-image:url(../image/upload.png);"></div>'
+                        +   '<div class="drop-or-click"><div class="upload-area"><i class="upload-logo"/><span>'+UPLOAD_TEXT+'</span></div></div>'
                         + '</div>', 
                         function(){
                             //confirm event
@@ -395,6 +396,8 @@ var showdown = require('showdown');
                                 } 
                             });
                             var do_upload = function(formData) {
+                                var selector = '.markdown-menu .add-image';
+                                var _selector = $(selector);
                                 $.ajax({
                                     'type': "POST",
                                     'url': obj.upload_url,
@@ -411,7 +414,6 @@ var showdown = require('showdown');
                             };
                             _drop_or_click[0].addEventListener('drop', function(e){
                                 e.preventDefault();
-                                console.log(e.dataTransfer);
                                 var fileList = e.dataTransfer.files;
                                 if(fileList.length == 0){ 
                                     return false; 

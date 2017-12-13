@@ -29,6 +29,7 @@ gulp.task('stylus-min',function(){
 gulp.task('js',function(){
     gulp.src('./src/*.js')
         .pipe(browserify())
+        .pipe(base64())
         .pipe(gulp.dest('./dist/'));
 });
 
@@ -36,6 +37,7 @@ gulp.task('js-min',function(){
     gulp.src('./src/*.js')
         .pipe(browserify())
         .pipe(rename('zjs_markdown_editor.min.js'))
+        .pipe(base64())
         .pipe(uglify())
         .pipe(gulp.dest('./dist/'));
 
