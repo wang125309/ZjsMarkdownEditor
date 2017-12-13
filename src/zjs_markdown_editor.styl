@@ -16,10 +16,9 @@ body
         width: 50%
         height: 100%
         vertical-align: top
-
+        
         .editor 
             position: relative
-
             textarea 
                 resize: none
                 padding: 10px
@@ -30,7 +29,18 @@ body
                 outline: none
                 overflow-y: scroll
                 font-size: 16px
-
+                &::-webkit-scrollbar
+                    background-color: transparent
+                    width: 7px
+                &::-webkit-scrollbar-thumb
+                    height: 15px
+                    border-radius: 4px
+                    box-shadow: inset 0 0 4px rgba(0,0,0,.3)
+                    background-color: rgba(0,0,0,0.3)
+                &::-webkit-scrollbar-track
+                    box-shadow: inset 0 0 3px #eee
+                    border-radius: 3px
+                    background-color: #f5f5f5
     .markdown-toolbar 
         background-color: #ffffff
         border-bottom: 1px solid #eee
@@ -95,6 +105,20 @@ body
                 border-radius: 3px
             p
                 margin: 0
+            a
+                color: #333
+            &::-webkit-scrollbar
+                background-color: transparent
+                width: 7px
+            &::-webkit-scrollbar-thumb
+                height: 15px
+                border-radius: 4px
+                box-shadow: inset 0 0 4px rgba(0,0,0,.3)
+                background-color: rgba(0,0,0,0.3)
+            &::-webkit-scrollbar-track
+                box-shadow: inset 0 0 3px #eee
+                border-radius: 3px
+                background-color: #f5f5f5
 .markdown-menu-background
     position: fixed 
     top: 0
