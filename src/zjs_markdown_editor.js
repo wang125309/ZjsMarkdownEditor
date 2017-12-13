@@ -36,7 +36,8 @@ var showdown = require('showdown');
         obj.tools = ('tools' in params? params.tools: null);
         obj.callback = ('callback' in params? params.callback: function(){});
         obj.upload_url = ('upload_url' in params? params.upload_url: '/');
-        obj.upload_result_data = ('upload_result_data' in params?params.upload_result_data: 'data')
+        obj.upload_result_data = ('upload_result_data' in params?params.upload_result_data: 'data');
+        obj.upload_name = ('upload_name' in params? params.upload_name: 'pic');
         obj.clearStorage = function() {
             localStorage._markdown_text = '';
         };
@@ -349,7 +350,7 @@ var showdown = require('showdown');
                 $('.image-tool').on('click', function(){
                     _image_menu = new obj.menu(
                         '添加图片链接', 
-                        '<div><form id="add-image"><input class="add-image" type="text"/></form></div>'
+                        '<div><form id="add-image"><input class="add-image" name="'+obj.upload_name+'" type="text"/></form></div>'
                         + '<div>'
                         +   '<input class="markdown-upload-image" type="file"/>'
                         +   '<div class="drop-or-click" style="background-image:url(../image/upload.png);"></div>'

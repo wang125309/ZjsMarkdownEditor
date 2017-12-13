@@ -36,13 +36,12 @@ Init your options like
         'width': '100%',
         'height': '100%',
         'selector': 'body',
-        'upload_url': '/upload/'
-        'upload_result_data': 'url',
+        'upload_url': '/upload/' //upload url
+        'upload_result_data': 'url', //result data like {url:xxxx}
+        'upload_name': 'pic', // Form input name
         'callback': function() {
         }
     }).init();
-
-upload_url option is your service upload api, upload_result_data is your api return data struct type.
 
 Depends on jQuery, jquery.caret.js, showdown
 
