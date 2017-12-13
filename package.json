@@ -1,6 +1,6 @@
 {
   "name": "zjs_markdown_editor",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Zjs markdown editor",
   "main": "dist/index.js",
   "scripts": {

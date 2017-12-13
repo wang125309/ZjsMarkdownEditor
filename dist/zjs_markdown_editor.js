@@ -11029,8 +11029,8 @@ return jQuery;
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(require,module,exports){
-var $ =require('jquery');
 require('jquery.crate');
+var $ =require('jquery');
 var showdown = require('showdown');
 
 (function(){
@@ -11473,6 +11473,7 @@ var showdown = require('showdown');
                                     var upload_image = event.target.result;
                                     _drop_or_click.css('background-image','url('+upload_image+')');   
                                 }
+                                _form_selector = $(form_selector);
                                 var formData = new FormData(_form_selector[0]);
                                 do_upload(formData);
                             });
