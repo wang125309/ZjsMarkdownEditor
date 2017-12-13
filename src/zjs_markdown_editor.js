@@ -554,8 +554,8 @@ var showdown = require('showdown');
                 }
             };
             _menu.addEventListener = function() {
-                var cancle_selector = obj.selector + ' .markdown-menu-button.cancle';
-                var confirm_selector = obj.selector + ' .markdown-menu-button.confirm';
+                var cancle_selector = 'body .markdown-menu-button.cancle';
+                var confirm_selector = 'body .markdown-menu-button.confirm';
                 var _cancle_selector = $(cancle_selector);
                 var _confirm_selector = $(confirm_selector);
                 _cancle_selector.on('click', function(){
