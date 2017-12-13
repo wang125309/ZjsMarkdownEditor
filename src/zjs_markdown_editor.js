@@ -541,7 +541,7 @@ var showdown = require('showdown');
                     '</div>' +
                 '</div>';
             _menu.show_or_hidden = function() {
-                var menu_selector = obj.selector + ' .markdown-menu-background';
+                var menu_selector = 'body .markdown-menu-background';
                 var _menu_selector = $(menu_selector);
                 if (_menu_selector.hasClass('open')) {
                     //Remove document 
