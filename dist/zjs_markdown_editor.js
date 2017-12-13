@@ -11065,7 +11065,9 @@ var showdown = require('showdown');
         obj.height = ('height' in params? params.height: '100%');
         obj.events = ['blod', 'italic', 'a', 'quote', 'code', 'title', 'title1', 'title2', 'line', 'image', 'last', 'next']; 
         obj.tools = ('tools' in params? params.tools: null);
-        obj.callback = ('callback' in params? params.callback: null);
+        obj.callback = ('callback' in params? params.callback: function(){});
+        obj.upload_url = ('upload_url' in params? params.upload_url: '/');
+        obj.upload_result_data = ('upload_result_data' in params?params.upload_result_data: 'data')
         obj.clearStorage = function() {
             localStorage._markdown_text = '';
         };
@@ -11286,7 +11288,7 @@ var showdown = require('showdown');
                             var text = _textarea.val();
                             var final_text = obj.insertWords(text, pos, '[', '][' + obj.find_hrefs(text) + ']\n', A);
                             _textarea.val(final_text);
-                            var selector = obj.selector + ' .add-href';
+                            var selector = '.markdown-menu' + ' .add-href';
                             var _selector = $(selector);
                             text = _textarea.val();
                             var input_text = _selector.val();
@@ -11378,20 +11380,99 @@ var showdown = require('showdown');
                 $('.image-tool').on('click', function(){
                     _image_menu = new obj.menu(
                         '添加图片链接', 
-                        '<input class="add-image" type="text"/>', 
+                        '<div><form id="add-image"><input class="add-image" type="text"/></form></div>'
+                        + '<div>'
+                        +   '<input class="markdown-upload-image" type="file"/>'
+                        +   '<div class="drop-or-click" style="background-image:url(../image/upload.png);"></div>'
+                        + '</div>', 
                         function(){
                             //confirm event
                             var pos = _textarea.caret('pos');
                             var text = _textarea.val();
-                            var selector = obj.selector + ' .add-image';
+                            var selector = '.markdown-menu' + ' .add-image';
                             var _selector = $(selector);
-                            text = _textarea.val();
+                            text = _textarea.val()
                             var input_text = _selector.val();
                             if (input_text.length) {
                                 var final_text = obj.insertWords(text, pos, '![', '](' + input_text + ')\n', IMAGE);
                                 _textarea.val(final_text);
                                 obj.setCaretPosition($(obj.selector + ' textarea')[0], pos + 2, pos + 2 + IMAGE.length);
                             }
+                        },function(){
+                            return;
+                        },function(){
+                            var file_selector = '.markdown-menu' + ' .markdown-upload-image';
+                            var drop_or_click = '.markdown-menu' + ' .drop-or-click';
+                            var form_selector = '.markdown-menu' + ' #add-image';
+                            var _file_selector = $(file_selector);
+                            var _drop_or_click = $(drop_or_click);
+                            var _form_selector = $(form_selector);
+                            _drop_or_click.on('click', function(){
+                                _file_selector.click();
+                            });
+                            $(document).on({
+                                dragleave:function(e){    
+                                    e.preventDefault(); 
+                                }, 
+                                drop:function(e){ 
+                                    e.preventDefault(); 
+                                }, 
+                                dragenter:function(e){
+                                    e.preventDefault(); 
+                                }, 
+                                dragover:function(e){
+                                    e.preventDefault(); 
+                                } 
+                            });
+                            var do_upload = function(formData) {
+                                $.ajax({
+                                    'type': "POST",
+                                    'url': obj.upload_url,
+                                    'data': formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(data) {
+                                        _selector.val(data[obj.upload_result_data]);                                  
+                                    },
+                                    error: function(data){
+                                        console.log(data);
+                                    }
+                                })
+                            };
+                            _drop_or_click[0].addEventListener('drop', function(e){
+                                e.preventDefault();
+                                console.log(e.dataTransfer);
+                                var fileList = e.dataTransfer.files;
+                                if(fileList.length == 0){ 
+                                    return false; 
+                                }
+                                if(fileList[0].type.indexOf('image') === -1){ 
+                                    return false; 
+                                }
+                                var img = window.URL.createObjectURL(fileList[0]);
+                                var filename = fileList[0].name; 
+                                var filesize = Math.floor((fileList[0].size)/1024);
+                                _drop_or_click.css('background-image', 'url(' + img + ')');
+                                if(filesize>1000) {
+                                    console.log('File too big');
+                                    return false;
+                                }
+                                else {
+                                    var formData = new FormData(); 
+                                    formData.append('pic', fileList[0]);
+                                    do_upload(formData);
+                                }
+                            });
+                            _file_selector.on('change', function(){
+                                var fReader = new FileReader();
+                                fReader.readAsDataURL(_file_selector[0].files[0]);
+                                fReader.onloadend = function(event) {
+                                    var upload_image = event.target.result;
+                                    _drop_or_click.css('background-image','url('+upload_image+')');   
+                                }
+                                var formData = new FormData(_form_selector[0]);
+                                do_upload(formData);
+                            });
                         }
                     );
                     _image_menu.show_or_hidden();
@@ -11409,7 +11490,7 @@ var showdown = require('showdown');
                 });
             }
         };
-        
+
         obj.delete_letter = function(text, pos, letter) {
             if (letter == text[pos]) {
                 return text.substring(0, pos) + text.substring(pos + 1, text.length);
@@ -11424,15 +11505,15 @@ var showdown = require('showdown');
                 '<div class="editor">' + 
                 '<textarea/>' +
                 '</div>' +
-            '</div>';
-            
+                '</div>';
+
             var selector = obj.selector + ' .markdown-wrapper';
-            
+
             $(selector).append(html);
-            
+
             var textarea_height = $(obj.selector + ' .markdown-wrapper').height()
                 - $(obj.selector + ' .markdown-toolbar').height();
-            
+
             $(obj.selector + ' textarea').css('height', textarea_height);
 
 
@@ -11549,27 +11630,27 @@ var showdown = require('showdown');
                             break;
                         }
                     }
-                     
+
                     var final_text = obj.insertWords(text, pos+1, str_head, '', '');
                     _textarea.val(final_text);
                     obj.setCaretPosition($(obj.selector + ' textarea')[0], pos + 1 + str_head.length, pos + 1 + str_head.length);
                     obj.convert_down();
                 }
-                
+
             });
         };
-        
+
         obj.menu = function(menu_title, menu_desc, success, fail, func) {
             var _menu = new Object();
             _menu.menu_body = '<div class="markdown-menu-background">'+
-                    '<div class="markdown-menu">' + 
-                        '<div class="markdown-menu-head">' + menu_title + '</div>' +
-                        '<div class="markdown-menu-body">' + menu_desc + '</div>' +
-                        '<div class="markdown-menu-footer">' + 
-                            '<button class="markdown-menu-button cancle">' + CANCLE + '</button>' +
-                            '<button class="markdown-menu-button confirm">' + CONFIRM +'</button>' +
-                        '</div>' +
-                    '</div>' +
+                '<div class="markdown-menu">' + 
+                '<div class="markdown-menu-head">' + menu_title + '</div>' +
+                '<div class="markdown-menu-body">' + menu_desc + '</div>' +
+                '<div class="markdown-menu-footer">' + 
+                '<button class="markdown-menu-button cancle">' + CANCLE + '</button>' +
+                '<button class="markdown-menu-button confirm">' + CONFIRM +'</button>' +
+                '</div>' +
+                '</div>' +
                 '</div>';
             _menu.show_or_hidden = function() {
                 var menu_selector = 'body .markdown-menu-background';
@@ -11589,6 +11670,7 @@ var showdown = require('showdown');
                 var confirm_selector = 'body .markdown-menu-button.confirm';
                 var _cancle_selector = $(cancle_selector);
                 var _confirm_selector = $(confirm_selector);
+
                 _cancle_selector.on('click', function(){
                     if (fail) fail();
                     _menu.show_or_hidden();
@@ -11598,11 +11680,11 @@ var showdown = require('showdown');
                     _menu.show_or_hidden();
                 });
             };
+            $("body").append(_menu.menu_body);
+            _menu.addEventListener();
             if (undefined != func) {
                 func();
             };
-            $("body").append(_menu.menu_body);
-            _menu.addEventListener();
             return _menu;
         };
 
@@ -11620,19 +11702,17 @@ var showdown = require('showdown');
                 obj.viewer();
                 obj.getSaveText();
                 obj.setTools();
-                if ('callback' in obj) {
-                    obj.callback();
-                }
+                obj.callback();
             }
         };
-        
+
         obj.getMarkDownText = function() {
             return localStorage['_markdown_text'];
         };
 
         return obj;
     };
-    
+
     window.MarkdownEditor = MarkdownEditor;
 
 })();

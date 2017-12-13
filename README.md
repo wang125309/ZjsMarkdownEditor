@@ -26,6 +26,24 @@ clear localStorage
     
     editor.clearStorage()
 
+Image Upload
+
+You can upload your own image to your service.
+
+Init your options like
+    
+    var editor = new MarkdownEditor({
+        'width': '100%',
+        'height': '100%',
+        'selector': 'body',
+        'upload_url': '/upload/'
+        'upload_result_data': 'url',
+        'callback': function() {
+        }
+    }).init();
+
+upload_url option is your service upload api, upload_result_data is your api return data struct type.
+
 Depends on jQuery, jquery.caret.js, showdown
 
 Live Demo : [https://wang125309.github.io/zjsmarkdowneditor.github.io/][1]
