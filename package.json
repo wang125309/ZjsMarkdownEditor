@@ -1,5 +1,5 @@
+{
   "name": "zjs_markdown_editor",
-  {
   "version": "0.1.7",
   "description": "Zjs markdown editor",
   "main": "dist/index.js",
