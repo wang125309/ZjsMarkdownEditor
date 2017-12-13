@@ -589,7 +589,7 @@ var showdown = require('showdown');
                 obj.viewer();
                 obj.getSaveText();
                 obj.setTools();
-                if (callback in obj) {
+                if ('callback' in obj) {
                     obj.callback();
                 }
             }

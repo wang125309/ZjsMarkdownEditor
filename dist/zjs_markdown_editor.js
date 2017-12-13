@@ -11601,7 +11601,7 @@ var showdown = require('showdown');
             if (undefined != func) {
                 func();
             };
-            $(obj.selector).append(_menu.menu_body);
+            $("body").append(_menu.menu_body);
             _menu.addEventListener();
             return _menu;
         };
@@ -11620,7 +11620,9 @@ var showdown = require('showdown');
                 obj.viewer();
                 obj.getSaveText();
                 obj.setTools();
-                obj.callback();
+                if ('callback' in obj) {
+                    obj.callback();
+                }
             }
         };
         
