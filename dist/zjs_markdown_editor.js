@@ -11111,6 +11111,15 @@ var showdown = require('showdown');
                 - $(obj.selector + ' .markdown-toolbar').height();
             $(obj.selector + ' .markdown-viewer').css('height', textarea_height);
         };
+        
+        obj.getSelectRange = function(ctrl) {
+            if (document.selection) {
+                return document.selection.createRange();
+            }
+            else {
+                return [ctrl.selectionStart, ctrl.selectionEnd];
+            }
+        }
 
         obj.getSelectText = function(ctrl) {
             if (document.selection) { 
@@ -11261,22 +11270,40 @@ var showdown = require('showdown');
             var _textarea = $(obj.selector + ' textarea');
             if (action === 'blod') {
                 $('.blod').on('click', function() {
+                    var select_range = obj.getSelectRange($(obj.selector + ' textarea')[0]);
                     var pos = _textarea.caret('pos');
                     var text = _textarea.val();
-                    var final_text = obj.insertWords(text, pos, '**', '**', BLOD);
-                    _textarea.val(final_text);
-                    obj.setCaretPosition($(obj.selector + ' textarea')[0], pos + 2, pos + BLOD.length + 2);
-                    obj.convert_down();
+                    if(select_range[0] != select_range[1]) {
+                        var final_text = text.substring(0, select_range[0]) + '**' + text.substring(select_range[0], select_range[1]) + '**' + text.substring(select_range[1],text.length);
+                        _textarea.val(final_text);
+                        obj.convert_down();
+                        obj.setCaretPosition($(obj.selector + ' textarea')[0], pos + 2, pos + select_range[1] - select_range[0]);
+                    }
+                    else {
+                        var final_text = obj.insertWords(text, pos, '**', '**', BLOD);
+                        _textarea.val(final_text);
+                        obj.setCaretPosition($(obj.selector + ' textarea')[0], pos + 2, pos + BLOD.length + 2);
+                        obj.convert_down();
+                    }
                 });
             }
             else if(action === 'italic') {
                 $('.italic').on('click', function(){
+                    var select_range = obj.getSelectRange($(obj.selector + ' textarea')[0]);
                     var pos = _textarea.caret('pos');
                     var text = _textarea.val();
-                    var final_text = obj.insertWords(text, pos, '*', '*', ITALIC);
-                    _textarea.val(final_text);
-                    obj.setCaretPosition($(obj.selector + ' textarea')[0], pos + 1, pos + BLOD.length + 1);
-                    obj.convert_down();
+                    if(select_range[0] != select_range[1]) {
+                        var final_text = text.substring(0, select_range[0]) + '*' + text.substring(select_range[0], select_range[1]) + '*' + text.substring(select_range[1],text.length);
+                        _textarea.val(final_text);
+                        obj.convert_down();
+                        obj.setCaretPosition($(obj.selector + ' textarea')[0], pos + 2, pos + select_range[1] - select_range[0]);
+                    }
+                    else {
+                        var final_text = obj.insertWords(text, pos, '*', '*', ITALIC);
+                        _textarea.val(final_text);
+                        obj.setCaretPosition($(obj.selector + ' textarea')[0], pos + 1, pos + BLOD.length + 1);
+                        obj.convert_down();
+                    }
                 });
             }
             else if(action === 'a') {
