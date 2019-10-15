@@ -199,6 +199,7 @@ var showdown = require('showdown');
             var _textarea = $(textarea);
             var _viewer = $(viewer);
             var text = _textarea.val();
+            text = text.replace(/</, '&lt;').replace(/>/, '&gt;');
             if(localStorage['_markdown_text'] != text || first_open == 0) {
                 first_open = 1;
                 localStorage['_markdown_text'] = text;
