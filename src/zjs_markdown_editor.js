@@ -16,7 +16,6 @@ var showdown = require('showdown');
     var LAST_STEP = '上一步';
     var NEXT_STEP = '下一步';
     var CANCLE = '取消';
-    var CONFIRM = '确定';
     var UPLOAD_TEXT = '点击或拖拽图片到此区域上传图片';
     var QUEUE_LENGTH = 200;
     var first_open = 0;
@@ -199,12 +198,12 @@ var showdown = require('showdown');
             var _textarea = $(textarea);
             var _viewer = $(viewer);
             var text = _textarea.val();
-            text = text.replace(/</, '&lt;').replace(/>/, '&gt;');
             if(localStorage['_markdown_text'] != text || first_open == 0) {
                 first_open = 1;
                 localStorage['_markdown_text'] = text;
                 obj.history_push_back(text);
             }
+            text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
             _viewer.html(converter.makeHtml(text));
         };
 
@@ -290,6 +289,7 @@ var showdown = require('showdown');
                             var selector = '.markdown-menu' + ' .add-href';
                             var _selector = $(selector);
                             text = _textarea.val();
+                            text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                             var input_text = _selector.val();
                             if (input_text.length) {
                                 var final_text = obj.insertHref(text, input_text);
@@ -531,8 +531,6 @@ var showdown = require('showdown');
                 var pos = _textarea.caret('pos');
 
                 var text = _textarea.val();
-                text = text.replace(/</g, '&lt;');
-                text = text.replace(/>/g, '&gt;');
                 _textarea.val(text);
                 if (event.keyCode == 9 && event.shiftKey) {
                     event.preventDefault();
