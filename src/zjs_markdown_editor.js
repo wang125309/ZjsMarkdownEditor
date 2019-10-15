@@ -4,7 +4,7 @@ var showdown = require('showdown');
 
 (function(){
     "use strict"
-    
+
     var BLOD = '粗体';
     var ITALIC = '斜体';
     var A = '链接地址';
@@ -33,7 +33,7 @@ var showdown = require('showdown');
         obj.selector = ('selector' in params? params.selector: 'body');
         obj.width = ('width' in params? params.width: '100%');
         obj.height = ('height' in params? params.height: '100%');
-        obj.events = ['blod', 'italic', 'a', 'quote', 'code', 'title', 'title1', 'title2', 'line', 'image', 'last', 'next']; 
+        obj.events = ['blod', 'italic', 'a', 'quote', 'code', 'title', 'title1', 'title2', 'line', 'image', 'last', 'next'];
         obj.tools = ('tools' in params? params.tools: null);
         obj.callback = ('callback' in params? params.callback: function(){});
         obj.upload_url = ('upload_url' in params? params.upload_url: '/');
@@ -51,7 +51,7 @@ var showdown = require('showdown');
         };
         obj.wrapper = function() {
             var html = '<div class="markdown-wrapper" style="width:' + obj.width+';height:' + obj.height+';">' +
-                    '<div class="markdown-toolbar">' + 
+                    '<div class="markdown-toolbar">' +
                         '<div class="tool image-tool"></div>' +
                         '<div class="tool quote"></div>' +
                         '<div class="tool a"></div>' +
@@ -69,7 +69,7 @@ var showdown = require('showdown');
             var selector = obj.selector;
             $(selector).append(html);
         };
-         
+
         obj.viewer = function() {
             var html = '<div class="markdown-viewer">' +
                     '<div class="markdown-viewer-inner"></div>' +
@@ -80,7 +80,7 @@ var showdown = require('showdown');
                 - $(obj.selector + ' .markdown-toolbar').height();
             $(obj.selector + ' .markdown-viewer').css('height', textarea_height);
         };
-        
+
         obj.getSelectRange = function(ctrl) {
             if (document.selection) {
                 return document.selection.createRange();
@@ -91,13 +91,13 @@ var showdown = require('showdown');
         }
 
         obj.getSelectText = function(ctrl) {
-            if (document.selection) { 
-                return document.selection.createRange().text; 
-            }  
-            else {  
-                return ctrl.value.substring(ctrl.selectionStart,  
-                                        ctrl.selectionEnd);  
-            }  
+            if (document.selection) {
+                return document.selection.createRange().text;
+            }
+            else {
+                return ctrl.value.substring(ctrl.selectionStart,
+                                        ctrl.selectionEnd);
+            }
         };
 
         obj.setCaretPosition = function(ctrl, pos, end){
@@ -117,7 +117,7 @@ var showdown = require('showdown');
         obj.insertWords = function(text, pos, left_word, right_word, star) {
             return text.substr(0, pos) + left_word + star + right_word + text.substr(pos, text.length);
         };
-        
+
         obj.getHrefPosition = function(text) {
             var re = new RegExp(/\[\d+\]: *\w+/,"g");
             var pos = text.search(re);
@@ -278,8 +278,8 @@ var showdown = require('showdown');
             else if(action === 'a') {
                 $('.a').on('click', function(){
                     _a_menu = new obj.menu(
-                        '添加链接', 
-                        '<input class="add-href" type="text"/>', 
+                        '添加链接',
+                        '<input class="add-href" type="text"/>',
                         function(){
                             //confirm event
                             var pos = _textarea.caret('pos');
@@ -377,12 +377,12 @@ var showdown = require('showdown');
             else if(action === 'image') {
                 $('.image-tool').on('click', function(){
                     _image_menu = new obj.menu(
-                        '添加图片链接', 
+                        '添加图片链接',
                         '<div><input class="add-image" type="text"/></div>'
                         + '<div>'
                         +   '<form id="add-image"><input class="markdown-upload-image" name="' + obj.upload_name +'" type="file"/></form>'
                         +   '<div class="drop-or-click"><div class="upload-area"><i class="upload-logo"/><span>'+UPLOAD_TEXT+'</span></div></div>'
-                        + '</div>', 
+                        + '</div>',
                         function(){
                             //confirm event
                             var pos = _textarea.caret('pos');
@@ -409,18 +409,18 @@ var showdown = require('showdown');
                                 _file_selector.click();
                             });
                             $(document).on({
-                                dragleave:function(e){    
-                                    e.preventDefault(); 
-                                }, 
-                                drop:function(e){ 
-                                    e.preventDefault(); 
-                                }, 
+                                dragleave:function(e){
+                                    e.preventDefault();
+                                },
+                                drop:function(e){
+                                    e.preventDefault();
+                                },
                                 dragenter:function(e){
-                                    e.preventDefault(); 
-                                }, 
+                                    e.preventDefault();
+                                },
                                 dragover:function(e){
-                                    e.preventDefault(); 
-                                } 
+                                    e.preventDefault();
+                                }
                             });
                             var do_upload = function(formData) {
                                 var selector = '.markdown-menu .add-image';
@@ -432,7 +432,7 @@ var showdown = require('showdown');
                                     processData: false,
                                     contentType: false,
                                     success: function(data) {
-                                        _selector.val(data[obj.upload_result_data]);                                  
+                                        _selector.val(data[obj.upload_result_data]);
                                     },
                                     error: function(data){
                                         console.log(data);
@@ -442,14 +442,14 @@ var showdown = require('showdown');
                             _drop_or_click[0].addEventListener('drop', function(e){
                                 e.preventDefault();
                                 var fileList = e.dataTransfer.files;
-                                if(fileList.length == 0){ 
-                                    return false; 
+                                if(fileList.length == 0){
+                                    return false;
                                 }
-                                if(fileList[0].type.indexOf('image') === -1){ 
-                                    return false; 
+                                if(fileList[0].type.indexOf('image') === -1){
+                                    return false;
                                 }
                                 var img = window.URL.createObjectURL(fileList[0]);
-                                var filename = fileList[0].name; 
+                                var filename = fileList[0].name;
                                 var filesize = Math.floor((fileList[0].size)/1024);
                                 _drop_or_click.css('background-image', 'url(' + img + ')');
                                 if(filesize>1000) {
@@ -457,7 +457,7 @@ var showdown = require('showdown');
                                     return false;
                                 }
                                 else {
-                                    var formData = new FormData(); 
+                                    var formData = new FormData();
                                     formData.append('pic', fileList[0]);
                                     do_upload(formData);
                                 }
@@ -467,7 +467,7 @@ var showdown = require('showdown');
                                 fReader.readAsDataURL(_file_selector[0].files[0]);
                                 fReader.onloadend = function(event) {
                                     var upload_image = event.target.result;
-                                    _drop_or_click.css('background-image','url('+upload_image+')');   
+                                    _drop_or_click.css('background-image','url('+upload_image+')');
                                 }
                                 _form_selector = $(form_selector);
                                 var formData = new FormData(_form_selector[0]);
@@ -502,7 +502,7 @@ var showdown = require('showdown');
 
         obj.editor = function() {
             var html = '<div class="markdown-editor">' +
-                '<div class="editor">' + 
+                '<div class="editor">' +
                 '<textarea/>' +
                 '</div>' +
                 '</div>';
@@ -528,7 +528,11 @@ var showdown = require('showdown');
             _textarea.on('keydown', function(event){
 
                 var pos = _textarea.caret('pos');
+
                 var text = _textarea.val();
+                text = text.replace(/</g, '&lt;');
+                text = text.replace(/>/g, '&gt;');
+                _textarea.val(text);
                 if (event.keyCode == 9 && event.shiftKey) {
                     event.preventDefault();
                     var selected_text = obj.getSelectText($(obj.selector + ' textarea')[0]);
@@ -540,9 +544,7 @@ var showdown = require('showdown');
                                 var line_head = i;
                                 while(1) {
                                     -- line_head;
-                                    console.log(text[pos + line_head - cnt]);
                                     if(text[pos + line_head - cnt] == '\t' || text[pos + line_head - cnt] == ' ') {
-                                        console.log('need : '+ line_head);
                                         text = obj.delete_letter(text, pos + line_head - cnt, text[pos + line_head - cnt]);
                                         ++ cnt;
                                         break;
@@ -553,7 +555,7 @@ var showdown = require('showdown');
                                 }
                                 _textarea.val(text);
                             }
-                        } 
+                        }
                     }
                     else {
                         var cnt = pos;
@@ -643,10 +645,10 @@ var showdown = require('showdown');
         obj.menu = function(menu_title, menu_desc, success, fail, func) {
             var _menu = new Object();
             _menu.menu_body = '<div class="markdown-menu-background">'+
-                '<div class="markdown-menu">' + 
+                '<div class="markdown-menu">' +
                 '<div class="markdown-menu-head">' + menu_title + '</div>' +
                 '<div class="markdown-menu-body">' + menu_desc + '</div>' +
-                '<div class="markdown-menu-footer">' + 
+                '<div class="markdown-menu-footer">' +
                 '<button class="markdown-menu-button cancle">' + CANCLE + '</button>' +
                 '<button class="markdown-menu-button confirm">' + CONFIRM +'</button>' +
                 '</div>' +
@@ -656,11 +658,11 @@ var showdown = require('showdown');
                 var menu_selector = 'body .markdown-menu-background';
                 var _menu_selector = $(menu_selector);
                 if (_menu_selector.hasClass('open')) {
-                    //Remove document 
+                    //Remove document
                     _menu_selector.removeClass('open');
                     $(menu_selector).remove();
                     _menu = null;
-                } 
+                }
                 else {
                     _menu_selector.addClass('open');
                 }
